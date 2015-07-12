@@ -16,7 +16,9 @@ echo $_FILES['fileupload']['size'] . "\r\n";
 
 $temp = explode(".",$_FILES["fileupload"]["name"]);
 $uploader = $mysqli->real_escape_string($_POST['JP']);
+$description = $mysqli->real_escape_string($_POST['description']);
 
+echo $description . "\r\n";
 echo $uploader . "\r\n";
 
 $newfilename = $uploader . '.' . end($temp);
