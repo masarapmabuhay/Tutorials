@@ -41,6 +41,7 @@ public class Sender extends AsyncTask<String, Void, String> {
 	    int maxBuffersize = 1*1024*1024;
 	    
 	    String path = sUrl[0];
+	    String name = sUrl[1];
 //	    String path1 = sUrl[1];
 	    File file = new File(path);
 //	    File file1 = new File(path1); 
@@ -112,10 +113,18 @@ public class Sender extends AsyncTask<String, Void, String> {
 	        dOut.writeBytes(twoHyphens + boundary + lineEnd);
             dOut.writeBytes("Content-Disposition: form-data; name=\"JP\"" + lineEnd); 
             dOut.writeBytes(lineEnd);
-            dOut.writeBytes("TALUSAN"); // mobile_no is String variable
+            dOut.writeBytes(name); // mobile_no is String variable
             dOut.writeBytes(lineEnd);	        
 	        //PARAMETER END
 	        
+	        //PARAMETER FIELD NAME
+	        dOut.writeBytes(twoHyphens + boundary + lineEnd);
+            dOut.writeBytes("Content-Disposition: form-data; name=\"description\"" + lineEnd); 
+            dOut.writeBytes(lineEnd);
+            dOut.writeBytes("This is the description"); // mobile_no is String variable
+            dOut.writeBytes(lineEnd);	        
+	        //PARAMETER END
+            
 	        dOut.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
 	        if(conn.getResponseCode() != HttpsURLConnection.HTTP_OK) {
@@ -131,9 +140,8 @@ public class Sender extends AsyncTask<String, Void, String> {
 		        	responseString += line;
 	            }
 	        }
-	        String responseMessage = conn.getResponseMessage();
 
-	        Log.i("UPLOAD", "HTTP Response is: " + responseCode + ": " + responseMessage);
+	        Log.i("UPLOAD", "HTTP Response is: " + conn.getResponseCode() + ": " + conn.getResponseMessage());
 
 	        if(responseCode == 200)
 	        {
